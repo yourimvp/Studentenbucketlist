@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>100 Dingen · Studententijd</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     COLOR PALETTE — VOORLOPIG
+     Pas deze hex-waarden aan voor eigen palet.
+     ============================================ */
+  :root {
+    --bg: #0f1410;
+    --bg-2: #1a2219;
+    --bg-3: #243024;
+    --bg-card: #131a14;
+    --text: #f0ebd8;
+    --text-dim: #9ca597;
+    --text-muted: #6b7566;
+    --accent: #7dc96d;
+    --accent-2: #d4e157;
+    --accent-3: #4a8f3e;
+    --success: #9ec97f;
+    --border: #2e3a2c;
+    --border-light: #1f2820;
+    --admin: #e5a84f;
+    --gold: #f5c85b;
+    --silver: #c9d1cc;
+    --bronze: #c98a5e;
+    --shadow: 0 4px 24px rgba(0,0,0,.5);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(ellipse at top left, rgba(125, 201, 109, .08), transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(212, 225, 87, .05), transparent 50%),
+      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,.008) 2px, rgba(255,255,255,.008) 3px);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px 120px;
+  }
+
+  /* ADMIN BANNER */
+  .admin-banner {
+    background: linear-gradient(90deg, rgba(229,168,79,.18), rgba(229,168,79,.06));
+    border: 1.5px solid var(--admin);
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--admin);
+  }
+  .admin-banner .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--admin);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .admin-banner .logout {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--admin);
+    color: var(--admin);
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .admin-banner .logout:hover { background: var(--admin); color: var(--bg); }
+
+  /* HEADER */
+  header {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent-2);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before { content: ''; width: 20px; height: 2px; background: var(--accent-2); }
+
+  h1.title {
+    font-family: 'Bungee', sans-serif;
+    font-size: clamp(42px, 9vw, 84px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  h1.title .accent { color: var(--accent); display: inline-block; transform: rotate(-2deg); }
+  h1.title .nr {
+    background: var(--accent-2);
+    color: var(--bg);
+    padding: 0 8px;
+    display: inline-block;
+    transform: skew(-4deg);
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 560px;
+    margin-top: 12px;
+  }
+
+  /* PROFILE SECTION */
+  .profiles {
+    margin: 24px 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .profile-chip {
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all .15s ease;
+  }
+  .profile-chip:hover {
+    background: var(--bg-3);
+    color: var(--text);
+    border-color: var(--text-muted);
+  }
+  .profile-chip.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+  .profile-chip .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+  }
+  .profile-chip.active .dot { background: var(--bg); }
+  .profile-chip .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    opacity: 0.7;
+    font-weight: 700;
+  }
+  .profile-chip.active .count { opacity: 0.9; }
+
+  .profile-add, .settings-btn {
+    background: transparent;
+    border: 1.5px dashed var(--border);
+    color: var(--text-dim);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .profile-add:hover { border-color: var(--accent); color: var(--accent); }
+  .settings-btn {
+    margin-left: auto;
+    border-color: var(--admin);
+    color: var(--admin);
+    border-style: solid;
+  }
+  .settings-btn:hover { background: var(--admin); color: var(--bg); }
+
+  .profile-delete {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+  .profile-delete:hover { color: var(--accent); }
+
+  /* VIEW TABS */
+  .view-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+  }
+  .view-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    padding: 10px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all .15s;
+  }
+  .view-tab:hover { color: var(--text); }
+  .view-tab.active {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* STICKY STATS BAR */
+  .sticky-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--bg);
+    padding: 12px 0 16px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    transition: box-shadow .2s ease;
+  }
+  .sticky-wrap.scrolled {
+    box-shadow: 0 6px 20px rgba(0,0,0,.4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stats {
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: padding .2s ease;
+  }
+  .stats::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(125,201,109,.1), transparent 60%);
+    pointer-events: none;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .stat-main { display: flex; align-items: baseline; gap: 4px; }
+  .stat-main .current {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    transition: font-size .2s ease;
+  }
+  .stat-main .of {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-left: 4px;
+  }
+  .stat-main .total {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 28px;
+    color: var(--text-dim);
+    transition: font-size .2s ease;
+  }
+
+  .rank { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .rank-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+  }
+  .rank-value {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 22px;
+    color: var(--accent-2);
+    letter-spacing: -0.01em;
+    transition: font-size .2s ease;
+  }
+
+  .progress-track {
+    height: 14px;
+    background: var(--bg-card);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-light);
+    transition: height .2s ease;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-3), var(--accent), var(--accent-2));
+    border-radius: 999px;
+    transition: width .5s cubic-bezier(.22,1,.36,1);
+    position: relative;
+    box-shadow: 0 0 16px rgba(125,201,109,.45);
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,.1) 8px, rgba(255,255,255,.1) 12px);
+    border-radius: 999px;
+  }
+
+  .sticky-wrap.scrolled .stats { padding: 12px 20px; }
+  .sticky-wrap.scrolled .stats-row { margin-bottom: 10px; }
+  .sticky-wrap.scrolled .stat-main .current { font-size: 36px; }
+  .sticky-wrap.scrolled .stat-main .total { font-size: 20px; }
+  .sticky-wrap.scrolled .rank-value { font-size: 16px; }
+  .sticky-wrap.scrolled .stats::before { display: none; }
+  .sticky-wrap.scrolled .progress-track { height: 10px; }
+
+  /* TOOLBAR */
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .search {
+    flex: 1;
+    min-width: 180px;
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .search:focus { border-color: var(--accent); }
+  .search::placeholder { color: var(--text-muted); }
+
+  .filter-group {
+    display: flex;
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 3px;
+  }
+  .filter-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    padding: 7px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 7px;
+    transition: all .15s;
+  }
+  .filter-btn:hover { color: var(--text); }
+  .filter-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+  }
+
+  .dice-btn, .edit-toggle-btn {
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all .15s;
+  }
+  .dice-btn:hover { border-color: var(--accent-2); color: var(--accent-2); transform: translateY(-1px); }
+  .edit-toggle-btn.active {
+    background: var(--admin);
+    border-color: var(--admin);
+    color: var(--bg);
+  }
+
+  /* ITEMS LIST */
+  .items-list { display: flex; flex-direction: column; gap: 4px; }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .15s ease;
+    user-select: none;
+  }
+  .item:hover {
+    border-color: var(--border);
+    background: var(--bg-2);
+    transform: translateX(2px);
+  }
+  .item.done {
+    background: rgba(125,201,109,.07);
+    border-color: rgba(125,201,109,.25);
+  }
+  .item.edit-mode {
+    border-color: var(--admin);
+    border-style: dashed;
+  }
+  .item.edit-mode:hover {
+    background: rgba(229,168,79,.07);
+  }
+
+  .item-nr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 32px;
+    letter-spacing: 0.05em;
+  }
+  .item.done .item-nr { color: var(--accent); }
+  .item.edit-mode .item-nr { color: var(--admin); }
+
+  .check {
+    width: 26px; height: 26px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all .2s cubic-bezier(.22,1,.36,1);
+  }
+  .item:hover .check { border-color: var(--accent); }
+  .item.done .check { background: var(--accent); border-color: var(--accent); }
+  .check svg {
+    width: 16px; height: 16px;
+    stroke: var(--bg);
+    stroke-width: 3.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset .25s cubic-bezier(.22,1,.36,1);
+  }
+  .item.done .check svg { stroke-dashoffset: 0; }
+  .item.edit-mode .check {
+    border-color: var(--admin);
+    background: rgba(229,168,79,.1);
+  }
+  .item.edit-mode .check::after {
+    content: '✏';
+    font-size: 14px;
+    color: var(--admin);
+  }
+  .item.edit-mode .check svg { display: none; }
+
+  .item-text {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    transition: all .2s;
+  }
+  .item.done .item-text {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+  }
+  .item-overridden {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--admin);
+    margin-left: 8px;
+    padding: 2px 6px;
+    border: 1px solid var(--admin);
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    vertical-align: middle;
+  }
+
+  .item-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .item.done .item-date { opacity: 1; }
+
+  .empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* LEADERBOARD */
+  .lb-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .lb-header h2 {
+    font-family: 'Bungee', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .lb-header h2 .highlight {
+    color: var(--accent);
+  }
+  .lb-header p {
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  .podium {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 12px;
+    margin-bottom: 32px;
+    align-items: end;
+  }
+  .podium-card {
+    background: var(--bg-2);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .podium-card.first { border-color: var(--gold); padding-top: 32px; padding-bottom: 32px; }
+  .podium-card.second { border-color: var(--silver); }
+  .podium-card.third { border-color: var(--bronze); }
+
+  .podium-medal {
+    font-size: 32px;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,.4));
+  }
+  .podium-card.first .podium-medal { font-size: 44px; }
+
+  .podium-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 18px;
+    margin-bottom: 4px;
+    color: var(--text);
+    word-break: break-word;
+  }
+  .podium-card.first .podium-name { font-size: 22px; }
+
+  .podium-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .podium-card.first .podium-score { font-size: 32px; color: var(--gold); }
+  .podium-card.second .podium-score { color: var(--silver); }
+  .podium-card.third .podium-score { color: var(--bronze); }
+
+  .podium-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .podium-card.you {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .lb-list { display: flex; flex-direction: column; gap: 6px; }
+  .lb-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 18px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+  }
+  .lb-row.you {
+    border-color: var(--accent);
+    background: rgba(125,201,109,.06);
+  }
+  .lb-position {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .lb-info { min-width: 0; }
+  .lb-name {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .you-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .lb-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .lb-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--bg);
+    border-radius: 999px;
+    overflow: hidden;
+    max-width: 140px;
+  }
+  .lb-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-3), var(--accent));
+    border-radius: 999px;
+  }
+  .lb-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .lb-note {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: rgba(229,168,79,.06);
+    border: 1px dashed var(--admin);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .lb-note strong { color: var(--admin); }
+
+  /* MODALS */
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+    padding: 16px;
+  }
+  .modal-bg.show { display: flex; animation: fadeIn .2s ease; }
+  .modal {
+    background: var(--bg-2);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 540px;
+    width: 100%;
+    box-shadow: var(--shadow);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .modal h2 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .modal-hint { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent-2);
+    margin: 20px 0 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .section-title:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+
+  .modal label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .modal input, .modal textarea {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color .15s;
+  }
+  .modal textarea { resize: vertical; min-height: 60px; }
+  .modal input:focus, .modal textarea:focus { border-color: var(--accent); }
+
+  .rank-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .rank-threshold {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 64px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    padding: 9px 10px;
+    border-radius: 8px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .rank-row input { margin-bottom: 0; }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .modal-actions .right-actions { display: flex; gap: 8px; margin-left: auto; }
+
+  .btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-primary { background: var(--accent); color: var(--bg); }
+  .btn-primary:hover { background: var(--accent-2); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1.5px solid var(--border);
+  }
+  .btn-secondary:hover { color: var(--text); }
+  .btn-danger {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    font-size: 13px;
+  }
+  .btn-danger:hover { color: #d46d6d; border-color: #d46d6d; }
+
+  .item-edit-display {
+    padding: 12px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .item-edit-display .orig {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+  }
+
+  .confetti {
+    position: fixed;
+    top: -20px;
+    width: 10px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 200;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--accent);
+    color: var(--bg);
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    box-shadow: var(--shadow);
+    transition: transform .3s cubic-bezier(.22,1,.36,1);
+    z-index: 150;
+    text-transform: uppercase;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 600px) {
+    .stat-main .current { font-size: 52px; }
+    .rank { align-items: flex-start; }
+    .stats-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .filter-group { justify-content: center; }
+    .sticky-wrap.scrolled .stat-main .current { font-size: 32px; }
+    .settings-btn { margin-left: 0; width: 100%; text-align: center; }
+    .podium { grid-template-columns: 1fr; }
+    .podium-card.first { order: -1; }
+    .lb-row { grid-template-columns: 32px 1fr auto; gap: 10px; padding: 12px 14px; }
+    .lb-bar { max-width: 80px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="admin-banner" id="adminBanner" style="display:none">
+      <div class="dot"></div>
+      <span>ADMIN MODUS · Instellingen en bewerken beschikbaar</span>
+      <button class="logout" id="adminLogout">Uitloggen</button>
+    </div>
+
+    <header>
+      <div class="eyebrow" id="eyebrowText">Tilburg · Asset Edition · v1.0</div>
+      <h1 class="title">
+        <span class="nr">100</span>
+        DINGEN
+        <br>
+        voor je <span class="accent">echte</span>
+        <br>
+        studententijd
+      </h1>
+      <p class="subtitle" id="subtitleText">Vink af wat je hebt gedaan. Eerlijk.</p>
+    </header>
+
+    <div class="profiles" id="profiles"></div>
+
+    <div class="view-tabs">
+      <button class="view-tab active" data-view="mine">Mijn lijst</button>
+      <button class="view-tab" data-view="leaderboard">🏆 Leaderboard</button>
+    </div>
+
+    <!-- VIEW: MINE -->
+    <div id="viewMine">
+      <div class="sticky-wrap" id="stickyWrap">
+        <div class="stats">
+          <div class="stats-row">
+            <div class="stat-main">
+              <span class="current" id="statCurrent">0</span>
+              <span class="of">/</span>
+              <span class="total">100</span>
+            </div>
+            <div class="rank">
+              <div class="rank-label">Huidige status</div>
+              <div class="rank-value" id="rankValue">—</div>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" class="search" id="search" placeholder="Zoek... (bv. cantus, boeka, fiets)" />
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">Alles</button>
+          <button class="filter-btn" data-filter="todo">Te doen</button>
+          <button class="filter-btn" data-filter="done">Gedaan</button>
+        </div>
+        <button class="dice-btn" id="diceBtn" title="Kies random iets">🎲 Random</button>
+        <button class="edit-toggle-btn" id="editToggleBtn" style="display:none">✏ Bewerk items</button>
+      </div>
+
+      <div class="items-list" id="itemsList"></div>
+    </div>
+
+    <!-- VIEW: LEADERBOARD -->
+    <div id="viewLeaderboard" style="display:none">
+      <div class="lb-header">
+        <h2>WIE IS DE <span class="highlight">LEGENDE</span></h2>
+        <p>De ranglijst van iedereen die 'm invult</p>
+      </div>
+      <div id="leaderboardContent"></div>
+    </div>
+
+    <footer id="footerText">Gemaakt voor wie van 'm nog steeds maakt</footer>
+  </div>
+
+  <!-- Admin login modal -->
+  <div class="modal-bg" id="adminLoginModal">
+    <div class="modal" style="max-width: 400px;">
+      <h2>🔒 Admin toegang</h2>
+      <p class="modal-hint">Voer het wachtwoord in om beheerfuncties te ontgrendelen.</p>
+      <input type="password" id="adminPwInput" placeholder="Wachtwoord" autocomplete="off" />
+      <div class="modal-actions">
+        <div class="right-actions">
+          <button class="btn btn-secondary" data-close="adminLoginModal">Annuleer</button>
+          <button class="btn btn-primary" id="adminLoginOk">Inloggen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile modal -->
+  <div class="modal-bg" id="profileModal">
+    <div class="modal">
+      <h2>Nieuw profiel</h2>
+      <p class="modal-hint">Voeg een naam toe om voortgang bij te houden.</p>
+      <input type="text" id="profileInput" placeholder="Naam of bijnaam..." maxlength="24" />
+      <div class="modal-actions">
+        <div class="right-actions">
+          <button class="btn btn-secondary" data-close="profileModal">Annuleer</button>
+          <button class="btn btn-primary" id="profileOk">Toevoegen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings modal (admin only) -->
+  <div class="modal-bg" id="settingsModal">
+    <div class="modal">
+      <h2>Instellingen</h2>
+      <p class="modal-hint">Pas teksten en statusnamen aan.</p>
+
+      <div class="section-title">Teksten</div>
+      <label>Bovenregel (eyebrow)</label>
+      <input type="text" id="setEyebrow" />
+      <label>Omschrijving onder logo</label>
+      <textarea id="setSubtitle"></textarea>
+      <label>Footer</label>
+      <input type="text" id="setFooter" />
+
+      <div class="section-title">Statusnamen</div>
+      <p class="modal-hint" style="margin-bottom: 14px;">Bepaalt welke titel iemand krijgt. Drempelwaardes links staan vast.</p>
+      <div id="rankInputs"></div>
+
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="setReset">Reset standaard</button>
+        <div class="right-actions">
+          <button class="btn btn-secondary" data-close="settingsModal">Annuleer</button>
+          <button class="btn btn-primary" id="setSave">Opslaan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item edit modal (admin only) -->
+  <div class="modal-bg" id="itemEditModal">
+    <div class="modal" style="max-width: 480px;">
+      <h2>Opdracht bewerken</h2>
+      <p class="modal-hint">Wijzig de tekst van deze opdracht. Leeg laten = terug naar origineel.</p>
+      <div class="item-edit-display">
+        <strong id="itemEditNr">#001</strong>
+        <span class="orig" id="itemEditOrig"></span>
+      </div>
+      <label>Nieuwe tekst</label>
+      <input type="text" id="itemEditInput" maxlength="120" />
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="itemEditReset">Reset naar origineel</button>
+        <div class="right-actions">
+          <button class="btn btn-secondary" data-close="itemEditModal">Annuleer</button>
+          <button class="btn btn-primary" id="itemEditSave">Opslaan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+// ====================================================
+// CONFIGURATIE — pas deze waardes aan voor je deployment
+// ====================================================
+const ADMIN_PASSWORD = "tilburg100";  // Verander dit voor je eigen site!
+// NB: Dit wachtwoord staat client-side in de code. Voor echte beveiliging
+// heb je een backend met server-side auth nodig (bv. Supabase Auth).
+
+// ====================================================
+// DATA
+// ====================================================
+const ITEMS = [{"nr":1,"text":"Topweek Cantus"},{"nr":2,"text":"TUC"},{"nr":3,"text":"COdE"},{"nr":4,"text":"Eindejaarscantus"},{"nr":5,"text":"Stadhuisstraat cantus"},{"nr":6,"text":"Cantus in de boeka"},{"nr":7,"text":"BBC"},{"nr":8,"text":"Adtiquetten"},{"nr":9,"text":"Huisfeest bij Primus"},{"nr":10,"text":"Huifkar cantus"},{"nr":11,"text":"Centurion"},{"nr":12,"text":"Toverstaffen"},{"nr":13,"text":"Zevendronk"},{"nr":14,"text":"Date Dinner"},{"nr":15,"text":"Silent Dinner"},{"nr":16,"text":"Flunkybal"},{"nr":17,"text":"Mario krat"},{"nr":18,"text":"Trapje op trapje af"},{"nr":19,"text":"Kratzitten"},{"nr":20,"text":"Zingen op een cantus"},{"nr":21,"text":"Schrobbeler tour"},{"nr":22,"text":"Pubgolf"},{"nr":23,"text":"(Lustrum) Gala"},{"nr":24,"text":"Brak worstenbroodje tijdens carnaval"},{"nr":25,"text":"Een shotgun voor 8:00"},{"nr":26,"text":"Mimosa ontbijt"},{"nr":27,"text":"Een adttijd neerzetten"},{"nr":28,"text":"Preaumillage"},{"nr":29,"text":"TOCK"},{"nr":30,"text":"SBF"},{"nr":31,"text":"PMHT"},{"nr":32,"text":"Meimarkt"},{"nr":33,"text":"Kongsi carnaval"},{"nr":34,"text":"Bier/wijn trein"},{"nr":35,"text":"Verkeersbord stelen"},{"nr":36,"text":"Cocktail uitvinden"},{"nr":37,"text":"Drankje naar jou vernoemd krijgen"},{"nr":38,"text":"Boeka afsluiten in je eentje"},{"nr":39,"text":"Win aan het rad in de boeka"},{"nr":40,"text":"Goed dobbelen bij de bolle"},{"nr":41,"text":"Traytje halen bij happy hour club stelz"},{"nr":42,"text":"Kapsalon bij tropical om 4:00"},{"nr":43,"text":"Kroeg afsluiten na plechtig beloofd te hebben niet te gaan drinken"},{"nr":44,"text":"Zuipen in CUTU"},{"nr":45,"text":"Tongen in de boeka"},{"nr":46,"text":"Van je fiets af vallen"},{"nr":47,"text":"Seks op campus"},{"nr":48,"text":"Barfen tegen de kerk"},{"nr":49,"text":"Barfen op campus"},{"nr":50,"text":"Uit een kroeg gezet worden"},{"nr":51,"text":"Medaille bij de boeka"},{"nr":52,"text":"Ruzie met een gast van Olof"},{"nr":53,"text":"Studievertraging oplopen"},{"nr":54,"text":"Wordt top mentor"},{"nr":55,"text":"Doe een adtje voor de 1MBC"},{"nr":56,"text":"Boksgala"},{"nr":57,"text":"Heb een adt liedje"},{"nr":58,"text":"Wordt ergens actief"},{"nr":59,"text":"Bestuursjaar"},{"nr":60,"text":"Post-tentamen espla terras"},{"nr":61,"text":"Actief leden weekend meemaken"},{"nr":62,"text":"Win de Asset Champions League"},{"nr":63,"text":"Skireis met de vereniging"},{"nr":64,"text":"Maak een lustrum mee"},{"nr":65,"text":"Foto zoenend op de verenigingscamera"},{"nr":66,"text":"Flyeren op uni"},{"nr":67,"text":"Maak een COBO mee"},{"nr":68,"text":"Zwemmen in de uni fontein"},{"nr":69,"text":"Draaimolen"},{"nr":70,"text":"Een fiets van een zwerver kopen"},{"nr":71,"text":"Tweedehands meubel kopen"},{"nr":72,"text":"Nog dronken een tentamen maken"},{"nr":73,"text":"Nachtje doorhalen"},{"nr":74,"text":"Vergeten in te schrijven voor een tentamen"},{"nr":75,"text":"Verslapen voor een tentamen"},{"nr":76,"text":"Lastig worden gevallen tijdens verkiezingen"},{"nr":77,"text":"Random sport meedoen in sportcentrum"},{"nr":78,"text":"De naam van je bedpartner niet meer weten"},{"nr":79,"text":"Berucht appje/belletje"},{"nr":80,"text":"Walk of shame zonder fiets"},{"nr":81,"text":"Eskibro's met je beste vriend"},{"nr":82,"text":"Biechten"},{"nr":83,"text":"Booty call"},{"nr":84,"text":"One night stand"},{"nr":85,"text":"Sleutels kwijtraken tijdens stappen"},{"nr":86,"text":"Fiets gestolen"},{"nr":87,"text":"Fiets bij de AFAC"},{"nr":88,"text":"Jas stelen omdat je eigen jas kwijt is"},{"nr":89,"text":"Seks met een huisgenoot"},{"nr":90,"text":"Adtje gestrekt"},{"nr":91,"text":"Meer je bijnaam genoemd worden dan je eigen naam"},{"nr":92,"text":"Speechen op een evenement"},{"nr":93,"text":"Waterval"},{"nr":94,"text":"Mensen een nieuw drankspel leren"},{"nr":95,"text":"Strafadtje krijgen op een cantus"},{"nr":96,"text":"Bier estafette"},{"nr":97,"text":"Meer dan 5 uur op een terras zitten"},{"nr":98,"text":"Eindigen op een after waar je niemand kent"},{"nr":99,"text":"Spopabo"},{"nr":100,"text":"Naar de nacht"}];
+
+const DEFAULT_SETTINGS = {
+  eyebrow: "Tilburg · Asset Edition · v1.0",
+  subtitle: "Vink af wat je hebt gedaan. Eerlijk.",
+  footer: "Gemaakt voor wie van 'm nog steeds maakt",
+  ranks: [
+    { min: 0,   label: "Nog maagdelijk" },
+    { min: 1,   label: "Eerstejaars" },
+    { min: 10,  label: "Ouderejaars" },
+    { min: 25,  label: "Sjaars-killer" },
+    { min: 40,  label: "Bekend gezicht" },
+    { min: 55,  label: "Veteraan" },
+    { min: 70,  label: "Nestor" },
+    { min: 85,  label: "Legende" },
+    { min: 100, label: "Onsterfelijk" }
+  ],
+  itemOverrides: {}
+};
+
+// ====================================================
+// STATE
+// ====================================================
+const LS_KEY = 'tilburg100_state_v3';
+const LS_ADMIN = 'tilburg100_admin';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      parsed.settings = { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) };
+      if (!parsed.settings.ranks || parsed.settings.ranks.length !== 9) {
+        parsed.settings.ranks = JSON.parse(JSON.stringify(DEFAULT_SETTINGS.ranks));
+      }
+      if (!parsed.settings.itemOverrides) parsed.settings.itemOverrides = {};
+      return parsed;
+    }
+  } catch(e) {}
+  return {
+    profiles: [{ id: 'p1', name: 'Ik', done: {}, created: Date.now() }],
+    activeId: 'p1',
+    filter: 'all',
+    search: '',
+    view: 'mine',
+    editMode: false,
+    settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS))
+  };
+}
+function saveState() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+const state = loadState();
+
+// Admin flag is kept separate (per device, not shared)
+let isAdmin = localStorage.getItem(LS_ADMIN) === '1';
+
+function activeProfile() {
+  return state.profiles.find(p => p.id === state.activeId) || state.profiles[0];
+}
+function getItemText(nr) {
+  const override = state.settings.itemOverrides[nr];
+  const orig = ITEMS.find(i => i.nr === nr)?.text || '';
+  return override || orig;
+}
+function rankFor(n) {
+  const ranks = state.settings.ranks;
+  let current = ranks[0];
+  for (const r of ranks) if (n >= r.min) current = r;
+  return current.label;
+}
+
+// ====================================================
+// RENDER
+// ====================================================
+function renderTexts() {
+  document.getElementById('eyebrowText').textContent = state.settings.eyebrow;
+  document.getElementById('subtitleText').textContent = state.settings.subtitle;
+  document.getElementById('footerText').textContent = state.settings.footer;
+}
+
+function renderAdminUI() {
+  document.getElementById('adminBanner').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('editToggleBtn').style.display = isAdmin ? 'flex' : 'none';
+  if (!isAdmin) state.editMode = false;
+}
+
+function renderProfiles() {
+  const el = document.getElementById('profiles');
+  el.innerHTML = '';
+  state.profiles.forEach(p => {
+    const count = Object.values(p.done).filter(Boolean).length;
+    const chip = document.createElement('button');
+    chip.className = 'profile-chip' + (p.id === state.activeId ? ' active' : '');
+    chip.innerHTML = `<span class="dot"></span> ${escapeHTML(p.name)} <span class="count">${count}/100</span>`;
+    chip.onclick = () => { state.activeId = p.id; saveState(); renderAll(); };
+    el.appendChild(chip);
+  });
+
+  const add = document.createElement('button');
+  add.className = 'profile-add';
+  add.textContent = '+ Persoon';
+  add.onclick = () => openProfileModal();
+  el.appendChild(add);
+
+  if (state.profiles.length > 1) {
+    const del = document.createElement('button');
+    del.className = 'profile-delete';
+    del.textContent = `✕ "${activeProfile().name}"`;
+    del.onclick = () => {
+      if (confirm(`"${activeProfile().name}" verwijderen?`)) {
+        state.profiles = state.profiles.filter(p => p.id !== state.activeId);
+        state.activeId = state.profiles[0].id;
+        saveState();
+        renderAll();
+      }
+    };
+    el.appendChild(del);
+  }
+
+  if (isAdmin) {
+    const settings = document.createElement('button');
+    settings.className = 'settings-btn';
+    settings.innerHTML = '⚙ Instellingen';
+    settings.onclick = openSettingsModal;
+    el.appendChild(settings);
+  }
+}
+
+function renderViewTabs() {
+  document.querySelectorAll('.view-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.view === state.view);
+  });
+  document.getElementById('viewMine').style.display = state.view === 'mine' ? 'block' : 'none';
+  document.getElementById('viewLeaderboard').style.display = state.view === 'leaderboard' ? 'block' : 'none';
+}
+
+function renderStats() {
+  const p = activeProfile();
+  const count = Object.values(p.done).filter(Boolean).length;
+  document.getElementById('statCurrent').textContent = count;
+  document.getElementById('progressFill').style.width = count + '%';
+  document.getElementById('rankValue').textContent = rankFor(count);
+}
+
+function renderItems() {
+  const p = activeProfile();
+  const list = document.getElementById('itemsList');
+  list.innerHTML = '';
+  const q = state.search.toLowerCase().trim();
+
+  // update edit toggle button
+  const editBtn = document.getElementById('editToggleBtn');
+  editBtn.classList.toggle('active', state.editMode);
+  editBtn.textContent = state.editMode ? '✓ Klaar met bewerken' : '✏ Bewerk items';
+
+  const filtered = ITEMS.filter(item => {
+    const done = !!p.done[item.nr];
+    if (state.filter === 'todo' && done) return false;
+    if (state.filter === 'done' && !done) return false;
+    const text = getItemText(item.nr);
+    if (q && !text.toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty">Niks gevonden.</div>';
+    return;
+  }
+
+  filtered.forEach(item => {
+    const entry = p.done[item.nr];
+    const isDone = !!entry;
+    const text = getItemText(item.nr);
+    const isOverridden = !!state.settings.itemOverrides[item.nr];
+    const row = document.createElement('div');
+    let classes = 'item';
+    if (isDone && !state.editMode) classes += ' done';
+    if (state.editMode) classes += ' edit-mode';
+    row.className = classes;
+    row.innerHTML = `
+      <span class="item-nr">#${String(item.nr).padStart(3, '0')}</span>
+      <div class="check">
+        <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+      </div>
+      <span class="item-text">${escapeHTML(text)}${isOverridden && isAdmin ? '<span class="item-overridden">gewijzigd</span>' : ''}</span>
+      <span class="item-date">${isDone && entry.date ? entry.date : ''}</span>
+    `;
+    row.onclick = () => {
+      if (state.editMode && isAdmin) openItemEdit(item.nr);
+      else toggleItem(item.nr);
+    };
+    list.appendChild(row);
+  });
+}
+
+function renderLeaderboard() {
+  const container = document.getElementById('leaderboardContent');
+  container.innerHTML = '';
+
+  // ============================================
+  // MOCKUP: gebruikt lokale profielen als demo
+  // Voor productie: vervang door API call naar backend
+  // ============================================
+  const entries = state.profiles.map(p => ({
+    id: p.id,
+    name: p.name,
+    count: Object.values(p.done).filter(Boolean).length,
+    isYou: p.id === state.activeId
+  })).sort((a, b) => b.count - a.count);
+
+  if (entries.length === 0) {
+    container.innerHTML = '<div class="empty">Nog geen deelnemers.</div>';
+    return;
+  }
+
+  // Podium (top 3)
+  const podium = document.createElement('div');
+  podium.className = 'podium';
+  const order = [1, 0, 2]; // second, first, third (so first is in middle)
+  const classes = ['second', 'first', 'third'];
+  const medals = ['🥈', '🥇', '🥉'];
+  order.forEach((idx, i) => {
+    const entry = entries[idx];
+    const cls = classes[i];
+    const card = document.createElement('div');
+    card.className = 'podium-card ' + cls + (entry && entry.isYou ? ' you' : '');
+    if (!entry) {
+      card.style.opacity = '0.3';
+      card.innerHTML = `
+        <div class="podium-medal">${medals[i]}</div>
+        <div class="podium-name">—</div>
+        <div class="podium-score">0</div>
+        <div class="podium-rank">open plek</div>
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="podium-medal">${medals[i]}</div>
+        <div class="podium-name">${escapeHTML(entry.name)}</div>
+        <div class="podium-score">${entry.count}</div>
+        <div class="podium-rank">${escapeHTML(rankFor(entry.count))}</div>
+      `;
+    }
+    podium.appendChild(card);
+  });
+  container.appendChild(podium);
+
+  // Rest of the list (position 4+)
+  if (entries.length > 3) {
+    const list = document.createElement('div');
+    list.className = 'lb-list';
+    entries.slice(3).forEach((entry, i) => {
+      const position = i + 4;
+      const row = document.createElement('div');
+      row.className = 'lb-row' + (entry.isYou ? ' you' : '');
+      const pct = entry.count;
+      row.innerHTML = `
+        <div class="lb-position">${position}</div>
+        <div class="lb-info">
+          <div class="lb-name">
+            ${escapeHTML(entry.name)}
+            ${entry.isYou ? '<span class="you-badge">jij</span>' : ''}
+          </div>
+          <div class="lb-meta">
+            <span>${escapeHTML(rankFor(entry.count))}</span>
+            <div class="lb-bar"><div class="lb-bar-fill" style="width:${pct}%"></div></div>
+          </div>
+        </div>
+        <div class="lb-score">${entry.count}</div>
+      `;
+      list.appendChild(row);
+    });
+    container.appendChild(list);
+  }
+
+  // Mockup note (only in admin view)
+  if (isAdmin) {
+    const note = document.createElement('div');
+    note.className = 'lb-note';
+    note.innerHTML = `<strong>📌 Mockup:</strong> dit leaderboard toont nu alleen profielen op dit apparaat. Voor een echte leaderboard (iedereens scores across devices) moet je 'm koppelen aan een backend. Zie de <code>renderLeaderboard()</code> functie in de code — vervang het <code>state.profiles.map(...)</code> stuk door een API-call naar bijvoorbeeld Supabase.`;
+    container.appendChild(note);
+  }
+}
+
+function renderAll() {
+  renderTexts();
+  renderAdminUI();
+  renderProfiles();
+  renderViewTabs();
+  renderStats();
+  renderItems();
+  renderLeaderboard();
+}
+
+// ====================================================
+// ACTIONS
+// ====================================================
+function toggleItem(nr) {
+  const p = activeProfile();
+  const was = !!p.done[nr];
+  if (was) delete p.done[nr];
+  else {
+    const d = new Date();
+    p.done[nr] = { date: d.toLocaleDateString('nl-NL', { day: '2-digit', month: 'short', year: '2-digit' }), ts: Date.now() };
+  }
+  saveState();
+
+  const newCount = Object.values(p.done).filter(Boolean).length;
+  if (!was) {
+    if (newCount === 25) { toast("KWART! je bent bezig."); confetti(); }
+    else if (newCount === 50) { toast("HELFT! respect."); confetti(); }
+    else if (newCount === 75) { toast("DRIEKWART!"); confetti(); }
+    else if (newCount === 100) { toast("ALLES BINNEN. legende."); confetti(200); }
+  }
+  renderAll();
+}
+
+function randomUndone() {
+  const p = activeProfile();
+  const undone = ITEMS.filter(i => !p.done[i.nr]);
+  if (undone.length === 0) { toast("Niks meer te doen."); return; }
+  const pick = undone[Math.floor(Math.random() * undone.length)];
+  toast(`Vanavond: ${getItemText(pick.nr)}`);
+  state.search = ''; state.filter = 'all';
+  document.getElementById('search').value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === 'all'));
+  renderItems();
+  setTimeout(() => {
+    const rows = document.querySelectorAll('.item');
+    const row = [...rows].find(r => r.querySelector('.item-nr').textContent === `#${String(pick.nr).padStart(3, '0')}`);
+    if (row) {
+      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      row.style.transition = 'all .3s';
+      row.style.boxShadow = '0 0 0 3px var(--accent-2)';
+      setTimeout(() => { row.style.boxShadow = ''; }, 2000);
+    }
+  }, 50);
+}
+
+// ====================================================
+// MODALS
+// ====================================================
+function openProfileModal() {
+  const inp = document.getElementById('profileInput');
+  inp.value = '';
+  document.getElementById('profileModal').classList.add('show');
+  setTimeout(() => inp.focus(), 50);
+}
+document.getElementById('profileOk').onclick = () => {
+  const name = document.getElementById('profileInput').value.trim();
+  if (!name) return;
+  const id = 'p' + Date.now();
+  state.profiles.push({ id, name, done: {}, created: Date.now() });
+  state.activeId = id;
+  saveState();
+  closeModal('profileModal');
+  renderAll();
+};
+document.getElementById('profileInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('profileOk').click();
+});
+
+function openSettingsModal() {
+  if (!isAdmin) return;
+  document.getElementById('setEyebrow').value = state.settings.eyebrow;
+  document.getElementById('setSubtitle').value = state.settings.subtitle;
+  document.getElementById('setFooter').value = state.settings.footer;
+
+  const ranksEl = document.getElementById('rankInputs');
+  ranksEl.innerHTML = '';
+  state.settings.ranks.forEach((r, i) => {
+    const nextMin = state.settings.ranks[i+1]?.min;
+    const range = nextMin !== undefined ? `${r.min}–${nextMin-1}` : `${r.min}+`;
+    const row = document.createElement('div');
+    row.className = 'rank-row';
+    row.innerHTML = `<div class="rank-threshold">${range}</div><input type="text" data-rank="${i}" value="${escapeAttr(r.label)}" maxlength="32" />`;
+    ranksEl.appendChild(row);
+  });
+  document.getElementById('settingsModal').classList.add('show');
+}
+document.getElementById('setSave').onclick = () => {
+  state.settings.eyebrow = document.getElementById('setEyebrow').value.trim() || DEFAULT_SETTINGS.eyebrow;
+  state.settings.subtitle = document.getElementById('setSubtitle').value.trim() || DEFAULT_SETTINGS.subtitle;
+  state.settings.footer = document.getElementById('setFooter').value.trim() || DEFAULT_SETTINGS.footer;
+  document.querySelectorAll('#rankInputs input').forEach(inp => {
+    const i = parseInt(inp.dataset.rank);
+    state.settings.ranks[i].label = inp.value.trim() || DEFAULT_SETTINGS.ranks[i].label;
+  });
+  saveState();
+  closeModal('settingsModal');
+  renderAll();
+  toast('Opgeslagen');
+};
+document.getElementById('setReset').onclick = () => {
+  if (!confirm('Teksten en statusnamen terug naar standaard?')) return;
+  state.settings.eyebrow = DEFAULT_SETTINGS.eyebrow;
+  state.settings.subtitle = DEFAULT_SETTINGS.subtitle;
+  state.settings.footer = DEFAULT_SETTINGS.footer;
+  state.settings.ranks = JSON.parse(JSON.stringify(DEFAULT_SETTINGS.ranks));
+  saveState();
+  openSettingsModal();
+  renderAll();
+};
+
+// ITEM EDIT MODAL
+let editingNr = null;
+function openItemEdit(nr) {
+  if (!isAdmin) return;
+  editingNr = nr;
+  const orig = ITEMS.find(i => i.nr === nr)?.text || '';
+  const current = getItemText(nr);
+  const isOverride = !!state.settings.itemOverrides[nr];
+  document.getElementById('itemEditNr').textContent = `#${String(nr).padStart(3, '0')}`;
+  document.getElementById('itemEditOrig').textContent = `Origineel: ${orig}`;
+  document.getElementById('itemEditInput').value = isOverride ? current : '';
+  document.getElementById('itemEditInput').placeholder = orig;
+  document.getElementById('itemEditModal').classList.add('show');
+  setTimeout(() => document.getElementById('itemEditInput').focus(), 50);
+}
+document.getElementById('itemEditSave').onclick = () => {
+  const val = document.getElementById('itemEditInput').value.trim();
+  const orig = ITEMS.find(i => i.nr === editingNr)?.text || '';
+  if (!val || val === orig) {
+    delete state.settings.itemOverrides[editingNr];
+  } else {
+    state.settings.itemOverrides[editingNr] = val;
+  }
+  saveState();
+  closeModal('itemEditModal');
+  renderAll();
+  toast('Opdracht bijgewerkt');
+};
+document.getElementById('itemEditReset').onclick = () => {
+  delete state.settings.itemOverrides[editingNr];
+  saveState();
+  closeModal('itemEditModal');
+  renderAll();
+  toast('Terug naar origineel');
+};
+document.getElementById('itemEditInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('itemEditSave').click();
+});
+
+// ADMIN LOGIN
+function openAdminLogin() {
+  document.getElementById('adminPwInput').value = '';
+  document.getElementById('adminLoginModal').classList.add('show');
+  setTimeout(() => document.getElementById('adminPwInput').focus(), 50);
+}
+document.getElementById('adminLoginOk').onclick = () => {
+  const pw = document.getElementById('adminPwInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    isAdmin = true;
+    localStorage.setItem(LS_ADMIN, '1');
+    closeModal('adminLoginModal');
+    // Clean URL (remove ?admin)
+    if (window.location.search.includes('admin')) {
+      history.replaceState({}, '', window.location.pathname);
+    }
+    toast('Admin modus actief');
+    renderAll();
+  } else {
+    toast('Verkeerd wachtwoord');
+  }
+};
+document.getElementById('adminPwInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('adminLoginOk').click();
+});
+document.getElementById('adminLogout').onclick = () => {
+  isAdmin = false;
+  localStorage.removeItem(LS_ADMIN);
+  state.editMode = false;
+  saveState();
+  renderAll();
+  toast('Uitgelogd');
+};
+
+// ====================================================
+// MODAL UTILS
+// ====================================================
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('[data-close]').forEach(el => {
+  el.onclick = () => closeModal(el.dataset.close);
+});
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if (e.target === bg) closeModal(bg.id); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-bg.show').forEach(m => m.classList.remove('show'));
+});
+
+// ====================================================
+// TOAST + CONFETTI
+// ====================================================
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+function confetti(n = 80) {
+  const colors = ['#7dc96d', '#d4e157', '#9ec97f', '#f0ebd8', '#4a8f3e'];
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.transform = `rotate(${Math.random() * 360}deg)`;
+    document.body.appendChild(el);
+    const dur = 2000 + Math.random() * 1500;
+    const drift = (Math.random() - 0.5) * 200;
+    el.animate([
+      { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
+      { transform: `translate(${drift}px, ${window.innerHeight + 50}px) rotate(${Math.random() * 720}deg)`, opacity: 0.8 }
+    ], { duration: dur, easing: 'cubic-bezier(.2,.6,.4,1)' });
+    setTimeout(() => el.remove(), dur);
+  }
+}
+
+// ====================================================
+// STICKY DETECTION
+// ====================================================
+const stickyWrap = document.getElementById('stickyWrap');
+window.addEventListener('scroll', () => {
+  const rect = stickyWrap.getBoundingClientRect();
+  stickyWrap.classList.toggle('scrolled', rect.top <= 0);
+}, { passive: true });
+
+// ====================================================
+// UTIL
+// ====================================================
+function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+
+// ====================================================
+// EVENTS
+// ====================================================
+document.getElementById('search').addEventListener('input', (e) => {
+  state.search = e.target.value;
+  renderItems();
+});
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.onclick = () => {
+    state.filter = btn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+    renderItems();
+  };
+});
+document.querySelectorAll('.view-tab').forEach(tab => {
+  tab.onclick = () => {
+    state.view = tab.dataset.view;
+    saveState();
+    renderAll();
+  };
+});
+document.getElementById('diceBtn').onclick = randomUndone;
+document.getElementById('editToggleBtn').onclick = () => {
+  if (!isAdmin) return;
+  state.editMode = !state.editMode;
+  renderItems();
+};
+
+// ====================================================
+// INIT
+// ====================================================
+// Check URL for admin param
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('admin') && !isAdmin) {
+  openAdminLogin();
+}
+
+renderAll();
+</script>
+</body>
+</html>
