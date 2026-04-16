@@ -1383,10 +1383,10 @@ function toggleItem(nr) {
 
   const newCount = Object.values(p.done).filter(Boolean).length;
   if (!was) {
-    if (newCount === 25) { toast("KWART! je bent bezig."); confetti(); }
+    if (newCount === 25) { toast("KWART! Oke dan!."); confetti(); }
     else if (newCount === 50) { toast("HELFT! respect."); confetti(); }
-    else if (newCount === 75) { toast("DRIEKWART!"); confetti(); }
-    else if (newCount === 100) { toast("ALLES BINNEN. legende."); confetti(200); }
+    else if (newCount === 75) { toast("VO!"); confetti(); }
+    else if (newCount === 95) { toast("PRACHTIG!"); confetti(200); }
   }
   renderAll();
 }
