@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
   /* ============================================
      COLOR PALETTE — VOORLOPIG
@@ -32,9 +35,9 @@
     --bronze: #c98a5e;
     --shadow: 0 4px 24px rgba(0,0,0,.5);
   }
-
+ 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
   html, body {
     background: var(--bg);
     color: var(--text);
@@ -42,20 +45,20 @@
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
-
+ 
   body {
     background-image:
       radial-gradient(ellipse at top left, rgba(125, 201, 109, .08), transparent 50%),
       radial-gradient(ellipse at bottom right, rgba(212, 225, 87, .05), transparent 50%),
       repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,.008) 2px, rgba(255,255,255,.008) 3px);
   }
-
+ 
   .container {
     max-width: 900px;
     margin: 0 auto;
     padding: 32px 24px 120px;
   }
-
+ 
   /* ADMIN BANNER */
   .admin-banner {
     background: linear-gradient(90deg, rgba(229,168,79,.18), rgba(229,168,79,.06));
@@ -94,14 +97,14 @@
     letter-spacing: 0.1em;
   }
   .admin-banner .logout:hover { background: var(--admin); color: var(--bg); }
-
+ 
   /* HEADER */
   header {
     margin-bottom: 24px;
     padding-bottom: 24px;
     border-bottom: 2px solid var(--border);
   }
-
+ 
   .eyebrow {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -114,7 +117,7 @@
     gap: 8px;
   }
   .eyebrow::before { content: ''; width: 20px; height: 2px; background: var(--accent-2); }
-
+ 
   h1.title {
     font-family: 'Bungee', sans-serif;
     font-size: clamp(42px, 9vw, 84px);
@@ -130,14 +133,14 @@
     display: inline-block;
     transform: skew(-4deg);
   }
-
+ 
   .subtitle {
     font-size: 16px;
     color: var(--text-dim);
     max-width: 560px;
     margin-top: 12px;
   }
-
+ 
   /* PROFILE SECTION */
   .profiles {
     margin: 24px 0 20px;
@@ -146,7 +149,7 @@
     gap: 10px;
     align-items: center;
   }
-
+ 
   .profile-chip {
     background: var(--bg-2);
     border: 1.5px solid var(--border);
@@ -186,7 +189,7 @@
     font-weight: 700;
   }
   .profile-chip.active .count { opacity: 0.9; }
-
+ 
   .profile-add, .settings-btn {
     background: transparent;
     border: 1.5px dashed var(--border);
@@ -207,7 +210,7 @@
     border-style: solid;
   }
   .settings-btn:hover { background: var(--admin); color: var(--bg); }
-
+ 
   .profile-delete {
     background: transparent;
     border: none;
@@ -217,7 +220,7 @@
     padding: 4px 8px;
   }
   .profile-delete:hover { color: var(--accent); }
-
+ 
   /* VIEW TABS */
   .view-tabs {
     display: flex;
@@ -246,7 +249,7 @@
     background: var(--accent);
     color: var(--bg);
   }
-
+ 
   /* STICKY STATS BAR */
   .sticky-wrap {
     position: sticky;
@@ -263,7 +266,7 @@
     box-shadow: 0 6px 20px rgba(0,0,0,.4);
     border-bottom: 1px solid var(--border);
   }
-
+ 
   .stats {
     background: var(--bg-2);
     border: 1.5px solid var(--border);
@@ -281,7 +284,7 @@
     background: radial-gradient(circle, rgba(125,201,109,.1), transparent 60%);
     pointer-events: none;
   }
-
+ 
   .stats-row {
     display: flex;
     justify-content: space-between;
@@ -310,7 +313,7 @@
     color: var(--text-dim);
     transition: font-size .2s ease;
   }
-
+ 
   .rank { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
   .rank-label {
     font-family: 'JetBrains Mono', monospace;
@@ -326,7 +329,7 @@
     letter-spacing: -0.01em;
     transition: font-size .2s ease;
   }
-
+ 
   .progress-track {
     height: 14px;
     background: var(--bg-card);
@@ -351,7 +354,7 @@
     background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,.1) 8px, rgba(255,255,255,.1) 12px);
     border-radius: 999px;
   }
-
+ 
   .sticky-wrap.scrolled .stats { padding: 12px 20px; }
   .sticky-wrap.scrolled .stats-row { margin-bottom: 10px; }
   .sticky-wrap.scrolled .stat-main .current { font-size: 36px; }
@@ -359,7 +362,7 @@
   .sticky-wrap.scrolled .rank-value { font-size: 16px; }
   .sticky-wrap.scrolled .stats::before { display: none; }
   .sticky-wrap.scrolled .progress-track { height: 10px; }
-
+ 
   /* TOOLBAR */
   .toolbar {
     display: flex;
@@ -383,7 +386,7 @@
   }
   .search:focus { border-color: var(--accent); }
   .search::placeholder { color: var(--text-muted); }
-
+ 
   .filter-group {
     display: flex;
     background: var(--bg-2);
@@ -409,7 +412,7 @@
     color: var(--bg);
     font-weight: 700;
   }
-
+ 
   .dice-btn, .edit-toggle-btn {
     background: var(--bg-2);
     border: 1.5px solid var(--border);
@@ -431,10 +434,10 @@
     border-color: var(--admin);
     color: var(--bg);
   }
-
+ 
   /* ITEMS LIST */
   .items-list { display: flex; flex-direction: column; gap: 4px; }
-
+ 
   .item {
     display: flex;
     align-items: center;
@@ -463,7 +466,7 @@
   .item.edit-mode:hover {
     background: rgba(229,168,79,.07);
   }
-
+ 
   .item-nr {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
@@ -474,7 +477,7 @@
   }
   .item.done .item-nr { color: var(--accent); }
   .item.edit-mode .item-nr { color: var(--admin); }
-
+ 
   .check {
     width: 26px; height: 26px;
     border-radius: 8px;
@@ -510,7 +513,7 @@
     color: var(--admin);
   }
   .item.edit-mode .check svg { display: none; }
-
+ 
   .item-text {
     flex: 1;
     font-size: 16px;
@@ -537,7 +540,7 @@
     letter-spacing: 0.1em;
     vertical-align: middle;
   }
-
+ 
   .item-date {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -546,14 +549,14 @@
     transition: opacity .2s;
   }
   .item.done .item-date { opacity: 1; }
-
+ 
   .empty {
     text-align: center;
     padding: 48px 24px;
     color: var(--text-muted);
     font-size: 14px;
   }
-
+ 
   /* LEADERBOARD */
   .lb-header {
     text-align: center;
@@ -573,7 +576,7 @@
     color: var(--text-dim);
     font-size: 14px;
   }
-
+ 
   .podium {
     display: grid;
     grid-template-columns: 1fr 1.2fr 1fr;
@@ -593,14 +596,14 @@
   .podium-card.first { border-color: var(--gold); padding-top: 32px; padding-bottom: 32px; }
   .podium-card.second { border-color: var(--silver); }
   .podium-card.third { border-color: var(--bronze); }
-
+ 
   .podium-medal {
     font-size: 32px;
     margin-bottom: 8px;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,.4));
   }
   .podium-card.first .podium-medal { font-size: 44px; }
-
+ 
   .podium-name {
     font-family: 'Archivo Black', sans-serif;
     font-size: 18px;
@@ -609,7 +612,7 @@
     word-break: break-word;
   }
   .podium-card.first .podium-name { font-size: 22px; }
-
+ 
   .podium-score {
     font-family: 'JetBrains Mono', monospace;
     font-size: 24px;
@@ -620,7 +623,7 @@
   .podium-card.first .podium-score { font-size: 32px; color: var(--gold); }
   .podium-card.second .podium-score { color: var(--silver); }
   .podium-card.third .podium-score { color: var(--bronze); }
-
+ 
   .podium-rank {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -632,7 +635,7 @@
     outline: 2px solid var(--accent);
     outline-offset: 4px;
   }
-
+ 
   .lb-list { display: flex; flex-direction: column; gap: 6px; }
   .lb-row {
     display: grid;
@@ -701,7 +704,7 @@
     font-weight: 700;
     color: var(--accent);
   }
-
+ 
   .lb-note {
     margin-top: 32px;
     padding: 16px 20px;
@@ -713,7 +716,7 @@
     line-height: 1.5;
   }
   .lb-note strong { color: var(--admin); }
-
+ 
   /* MODALS */
   .modal-bg {
     position: fixed;
@@ -744,7 +747,7 @@
     margin-bottom: 8px;
   }
   .modal-hint { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
-
+ 
   .section-title {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -756,7 +759,7 @@
     border-top: 1px solid var(--border);
   }
   .section-title:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
-
+ 
   .modal label {
     display: block;
     font-size: 12px;
@@ -779,7 +782,7 @@
   }
   .modal textarea { resize: vertical; min-height: 60px; }
   .modal input:focus, .modal textarea:focus { border-color: var(--accent); }
-
+ 
   .rank-row {
     display: flex;
     gap: 8px;
@@ -799,7 +802,7 @@
     flex-shrink: 0;
   }
   .rank-row input { margin-bottom: 0; }
-
+ 
   .modal-actions {
     display: flex;
     gap: 8px;
@@ -808,7 +811,7 @@
     flex-wrap: wrap;
   }
   .modal-actions .right-actions { display: flex; gap: 8px; margin-left: auto; }
-
+ 
   .btn {
     padding: 10px 20px;
     border-radius: 10px;
@@ -834,7 +837,7 @@
     font-size: 13px;
   }
   .btn-danger:hover { color: #d46d6d; border-color: #d46d6d; }
-
+ 
   .item-edit-display {
     padding: 12px 14px;
     background: var(--bg-card);
@@ -851,7 +854,7 @@
     display: block;
     margin-top: 4px;
   }
-
+ 
   .confetti {
     position: fixed;
     top: -20px;
@@ -860,9 +863,9 @@
     pointer-events: none;
     z-index: 200;
   }
-
+ 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
+ 
   .toast {
     position: fixed;
     bottom: 24px;
@@ -881,7 +884,7 @@
     text-transform: uppercase;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
-
+ 
   footer {
     text-align: center;
     margin-top: 48px;
@@ -892,7 +895,7 @@
     color: var(--text-muted);
     letter-spacing: 0.05em;
   }
-
+ 
   @media (max-width: 600px) {
     .stat-main .current { font-size: 52px; }
     .rank { align-items: flex-start; }
@@ -910,13 +913,13 @@
 </head>
 <body>
   <div class="container">
-
+ 
     <div class="admin-banner" id="adminBanner" style="display:none">
       <div class="dot"></div>
       <span>ADMIN MODUS · Instellingen en bewerken beschikbaar</span>
       <button class="logout" id="adminLogout">Uitloggen</button>
     </div>
-
+ 
     <header>
       <div class="eyebrow" id="eyebrowText">Tilburg · Asset Edition · v1.0</div>
       <h1 class="title">
@@ -929,14 +932,14 @@
       </h1>
       <p class="subtitle" id="subtitleText">Vink af wat je hebt gedaan. Eerlijk.</p>
     </header>
-
+ 
     <div class="profiles" id="profiles"></div>
-
+ 
     <div class="view-tabs">
       <button class="view-tab active" data-view="mine">Mijn lijst</button>
       <button class="view-tab" data-view="leaderboard">🏆 Leaderboard</button>
     </div>
-
+ 
     <!-- VIEW: MINE -->
     <div id="viewMine">
       <div class="sticky-wrap" id="stickyWrap">
@@ -957,7 +960,7 @@
           </div>
         </div>
       </div>
-
+ 
       <div class="toolbar">
         <input type="text" class="search" id="search" placeholder="Zoek... (bv. cantus, boeka, fiets)" />
         <div class="filter-group">
@@ -968,10 +971,10 @@
         <button class="dice-btn" id="diceBtn" title="Kies random iets">🎲 Random</button>
         <button class="edit-toggle-btn" id="editToggleBtn" style="display:none">✏ Bewerk items</button>
       </div>
-
+ 
       <div class="items-list" id="itemsList"></div>
     </div>
-
+ 
     <!-- VIEW: LEADERBOARD -->
     <div id="viewLeaderboard" style="display:none">
       <div class="lb-header">
@@ -980,10 +983,10 @@
       </div>
       <div id="leaderboardContent"></div>
     </div>
-
+ 
     <footer id="footerText"> Kusjes Youri & Iris </footer>
   </div>
-
+ 
   <!-- Admin login modal -->
   <div class="modal-bg" id="adminLoginModal">
     <div class="modal" style="max-width: 400px;">
@@ -998,7 +1001,7 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- Profile modal -->
   <div class="modal-bg" id="profileModal">
     <div class="modal">
@@ -1013,13 +1016,13 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- Settings modal (admin only) -->
   <div class="modal-bg" id="settingsModal">
     <div class="modal">
       <h2>Instellingen</h2>
       <p class="modal-hint">Pas teksten en statusnamen aan.</p>
-
+ 
       <div class="section-title">Teksten</div>
       <label>Bovenregel (eyebrow)</label>
       <input type="text" id="setEyebrow" />
@@ -1027,11 +1030,11 @@
       <textarea id="setSubtitle"></textarea>
       <label>Footer</label>
       <input type="text" id="setFooter" />
-
+ 
       <div class="section-title">Statusnamen</div>
       <p class="modal-hint" style="margin-bottom: 14px;">Bepaalt welke titel iemand krijgt. Drempelwaardes links staan vast.</p>
       <div id="rankInputs"></div>
-
+ 
       <div class="modal-actions">
         <button class="btn btn-danger" id="setReset">Reset standaard</button>
         <div class="right-actions">
@@ -1041,7 +1044,7 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- Item edit modal (admin only) -->
   <div class="modal-bg" id="itemEditModal">
     <div class="modal" style="max-width: 480px;">
@@ -1062,22 +1065,48 @@
       </div>
     </div>
   </div>
-
+ 
+  <!-- Name entry modal (first visit) -->
+  <div class="modal-bg" id="nameModal">
+    <div class="modal" style="max-width: 420px;">
+      <h2>Welkom!</h2>
+      <p class="modal-hint">Vul je naam in om mee te doen aan het leaderboard. Andere bezoekers zien je naam en score.</p>
+      <input type="text" id="nameInput" placeholder="Je naam of bijnaam..." maxlength="24" />
+      <div class="modal-actions">
+        <div class="right-actions">
+          <button class="btn btn-primary" id="nameOk">Let's go</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
   <div class="toast" id="toast"></div>
-
+ 
 <script>
 // ====================================================
 // CONFIGURATIE — pas deze waardes aan voor je deployment
 // ====================================================
 const ADMIN_PASSWORD = "tilburg100";  // Verander dit voor je eigen site!
-// NB: Dit wachtwoord staat client-side in de code. Voor echte beveiliging
-// heb je een backend met server-side auth nodig (bv. Supabase Auth).
-
+ 
+// ====================================================
+// FIREBASE — jouw config van Firebase console
+// ====================================================
+firebase.initializeApp({
+  apiKey: "AIzaSyATVNzfxMysBd5I1qgztgObMU-3yKA_QfA",
+  authDomain: "studentenbucketlist-bcc22.firebaseapp.com",
+  projectId: "studentenbucketlist-bcc22",
+  storageBucket: "studentenbucketlist-bcc22.firebasestorage.app",
+  messagingSenderId: "525343680395",
+  appId: "1:525343680395:web:6d9377af8a21828591f18e",
+  measurementId: "G-NGXEHGJCTR"
+});
+const db = firebase.firestore();
+ 
 // ====================================================
 // DATA
 // ====================================================
 const ITEMS = [{"nr":1,"text":"Topweek Cantus"},{"nr":2,"text":"TUC"},{"nr":3,"text":"COdE"},{"nr":4,"text":"Eindejaarscantus"},{"nr":5,"text":"Stadhuisstraat cantus"},{"nr":6,"text":"Cantus in de boeka"},{"nr":7,"text":"BBC"},{"nr":8,"text":"Adtiquetten"},{"nr":9,"text":"Huisfeest bij Primus"},{"nr":10,"text":"Huifkar cantus"},{"nr":11,"text":"Centurion"},{"nr":12,"text":"Toverstaffen"},{"nr":13,"text":"Zevendronk"},{"nr":14,"text":"Date Dinner"},{"nr":15,"text":"Silent Dinner"},{"nr":16,"text":"Flunkybal"},{"nr":17,"text":"Mario krat"},{"nr":18,"text":"Trapje op trapje af"},{"nr":19,"text":"Kratzitten"},{"nr":20,"text":"Zingen op een cantus"},{"nr":21,"text":"Schrobbeler tour"},{"nr":22,"text":"Pubgolf"},{"nr":23,"text":"(Lustrum) Gala"},{"nr":24,"text":"Brak worstenbroodje tijdens carnaval"},{"nr":25,"text":"Een shotgun voor 8:00"},{"nr":26,"text":"Mimosa ontbijt"},{"nr":27,"text":"Een adttijd neerzetten"},{"nr":28,"text":"Preaumillage"},{"nr":29,"text":"TOCK"},{"nr":30,"text":"SBF"},{"nr":31,"text":"PMHT"},{"nr":32,"text":"Doe mee aan voertuigenrace op de Meimarkt"},{"nr":33,"text":"Kongsi carnaval"},{"nr":34,"text":"Bier/wijn trein"},{"nr":35,"text":"Verkeersbord stelen"},{"nr":36,"text":"Cocktail uitvinden"},{"nr":37,"text":"Drankje naar jou vernoemd krijgen"},{"nr":38,"text":"Boeka afsluiten in je eentje"},{"nr":39,"text":"Win aan het rad in de boeka"},{"nr":40,"text":"Goed dobbelen bij de bolle"},{"nr":41,"text":"Traytje halen bij happy hour club stelz"},{"nr":42,"text":"Kapsalon bij tropical om 4:00"},{"nr":43,"text":"Kroeg afsluiten na plechtig beloofd te hebben niet te gaan drinken"},{"nr":44,"text":"Zuipen in CUTU"},{"nr":45,"text":"Tongen in de boeka"},{"nr":46,"text":"Van je fiets af vallen"},{"nr":47,"text":"Seks op campus"},{"nr":48,"text":"Barfen tegen de kerk"},{"nr":49,"text":"Barfen op campus"},{"nr":50,"text":"Uit een kroeg gezet worden"},{"nr":51,"text":"Medaille bij de boeka"},{"nr":52,"text":"Ruzie met een gast van Olof"},{"nr":53,"text":"Studievertraging oplopen"},{"nr":54,"text":"Wordt top mentor"},{"nr":55,"text":"Doe een adtje voor de 1MBC"},{"nr":56,"text":"Boksgala"},{"nr":57,"text":"Eindig in een ambulance"},{"nr":58,"text":"Wordt ergens actief"},{"nr":59,"text":"Bestuursjaar"},{"nr":60,"text":"Post-tentamen espla terras"},{"nr":61,"text":"Actief leden weekend meemaken"},{"nr":62,"text":"Win de Asset Champions League"},{"nr":63,"text":"Skireis met de vereniging"},{"nr":64,"text":"Maak een lustrum mee"},{"nr":65,"text":"Foto zoenend op de verenigingscamera"},{"nr":66,"text":"Flyeren op uni"},{"nr":67,"text":"Maak een COBO mee"},{"nr":68,"text":"Zwemmen in de uni fontein"},{"nr":69,"text":"Draaimolen"},{"nr":70,"text":"Een fiets van een zwerver kopen"},{"nr":71,"text":"Doe een schurftbehandeling"},{"nr":72,"text":"Nog dronken een tentamen maken"},{"nr":73,"text":"Nachtje doorhalen"},{"nr":74,"text":"Vergeten in te schrijven voor een tentamen"},{"nr":75,"text":"Verslapen voor een tentamen"},{"nr":76,"text":"Bezoek de nacht"},{"nr":77,"text":"Random sport meedoen in sportcentrum"},{"nr":78,"text":"De naam van je bedpartner niet meer weten"},{"nr":79,"text":"Berucht appje/belletje"},{"nr":80,"text":"Walk of shame zonder fiets"},{"nr":81,"text":"Eskibro's met je beste vriend"},{"nr":82,"text":"Biechten"},{"nr":83,"text":"Booty call"},{"nr":84,"text":"One night stand"},{"nr":85,"text":"Sleutels kwijtraken tijdens stappen"},{"nr":86,"text":"Fiets gestolen"},{"nr":87,"text":"Fiets bij de AFAC"},{"nr":88,"text":"Jas stelen omdat je eigen jas kwijt is"},{"nr":89,"text":"Seks met een huisgenoot"},{"nr":90,"text":"Adtje gestrekt"},{"nr":91,"text":"Meer je bijnaam genoemd worden dan je eigen naam"},{"nr":92,"text":"Speechen op een evenement"},{"nr":93,"text":"Waterval"},{"nr":94,"text":"Mensen een nieuw drankspel leren"},{"nr":95,"text":"Strafadtje krijgen op een cantus"},{"nr":96,"text":"Bier estafette"},{"nr":97,"text":"Meer dan 5 uur op een terras zitten"},{"nr":98,"text":"Eindigen op een after waar je niemand kent"},{"nr":99,"text":"Spopabo"},{"nr":100,"text":"Trakteer de makers van deze lijst op een biertje (Youri & Iris)"}];
-
+ 
 const DEFAULT_SETTINGS = {
   eyebrow: "Tilburg Studenten Bucketlist",
   subtitle: "Haal jij het meeste uit je studententijd in Tilburg?",
@@ -1095,13 +1124,13 @@ const DEFAULT_SETTINGS = {
   ],
   itemOverrides: {}
 };
-
+ 
 // ====================================================
 // STATE
 // ====================================================
 const LS_KEY = 'tilburg100_state_v3';
 const LS_ADMIN = 'tilburg100_admin';
-
+ 
 function loadState() {
   try {
     const raw = localStorage.getItem(LS_KEY);
@@ -1127,10 +1156,69 @@ function loadState() {
 }
 function saveState() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 const state = loadState();
-
+ 
+// ====================================================
+// FIREBASE SYNC — leaderboard voor iedereen
+// ====================================================
+const LS_FBID = 'tilburg100_fb_uid';
+const LS_FBNAME = 'tilburg100_fb_name';
+ 
+function getMyFirebaseId() {
+  let id = localStorage.getItem(LS_FBID);
+  if (!id) {
+    id = 'user_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    localStorage.setItem(LS_FBID, id);
+  }
+  return id;
+}
+function getMyFirebaseName() {
+  return localStorage.getItem(LS_FBNAME) || '';
+}
+function setMyFirebaseName(name) {
+  localStorage.setItem(LS_FBNAME, name);
+}
+ 
+// Push score to Firebase
+async function syncToFirebase() {
+  const name = getMyFirebaseName();
+  if (!name) return; // don't sync if no name set
+  const uid = getMyFirebaseId();
+  const p = activeProfile();
+  const score = Object.values(p.done).filter(Boolean).length;
+  try {
+    await db.collection('leaderboard').doc(uid).set({
+      name: name,
+      score: score,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) {
+    console.error('Firebase sync error:', e);
+  }
+}
+ 
+// Fetch leaderboard from Firebase
+let leaderboardCache = [];
+async function fetchLeaderboard() {
+  try {
+    const snapshot = await db.collection('leaderboard')
+      .orderBy('score', 'desc')
+      .limit(100)
+      .get();
+    const myId = getMyFirebaseId();
+    leaderboardCache = snapshot.docs.map(doc => ({
+      id: doc.id,
+      name: doc.data().name,
+      count: doc.data().score || 0,
+      isYou: doc.id === myId
+    }));
+  } catch(e) {
+    console.error('Firebase fetch error:', e);
+  }
+}
+ 
 // Admin flag is kept separate (per device, not shared)
 let isAdmin = localStorage.getItem(LS_ADMIN) === '1';
-
+ 
 function activeProfile() {
   return state.profiles.find(p => p.id === state.activeId) || state.profiles[0];
 }
@@ -1145,7 +1233,7 @@ function rankFor(n) {
   for (const r of ranks) if (n >= r.min) current = r;
   return current.label;
 }
-
+ 
 // ====================================================
 // RENDER
 // ====================================================
@@ -1154,13 +1242,13 @@ function renderTexts() {
   document.getElementById('subtitleText').textContent = state.settings.subtitle;
   document.getElementById('footerText').textContent = state.settings.footer;
 }
-
+ 
 function renderAdminUI() {
   document.getElementById('adminBanner').style.display = isAdmin ? 'flex' : 'none';
   document.getElementById('editToggleBtn').style.display = isAdmin ? 'flex' : 'none';
   if (!isAdmin) state.editMode = false;
 }
-
+ 
 function renderProfiles() {
   const el = document.getElementById('profiles');
   el.innerHTML = '';
@@ -1172,13 +1260,13 @@ function renderProfiles() {
     chip.onclick = () => { state.activeId = p.id; saveState(); renderAll(); };
     el.appendChild(chip);
   });
-
+ 
   const add = document.createElement('button');
   add.className = 'profile-add';
   add.textContent = '+ Persoon';
   add.onclick = () => openProfileModal();
   el.appendChild(add);
-
+ 
   if (state.profiles.length > 1) {
     const del = document.createElement('button');
     del.className = 'profile-delete';
@@ -1193,7 +1281,7 @@ function renderProfiles() {
     };
     el.appendChild(del);
   }
-
+ 
   if (isAdmin) {
     const settings = document.createElement('button');
     settings.className = 'settings-btn';
@@ -1202,7 +1290,7 @@ function renderProfiles() {
     el.appendChild(settings);
   }
 }
-
+ 
 function renderViewTabs() {
   document.querySelectorAll('.view-tab').forEach(tab => {
     tab.classList.toggle('active', tab.dataset.view === state.view);
@@ -1210,7 +1298,7 @@ function renderViewTabs() {
   document.getElementById('viewMine').style.display = state.view === 'mine' ? 'block' : 'none';
   document.getElementById('viewLeaderboard').style.display = state.view === 'leaderboard' ? 'block' : 'none';
 }
-
+ 
 function renderStats() {
   const p = activeProfile();
   const count = Object.values(p.done).filter(Boolean).length;
@@ -1218,18 +1306,18 @@ function renderStats() {
   document.getElementById('progressFill').style.width = count + '%';
   document.getElementById('rankValue').textContent = rankFor(count);
 }
-
+ 
 function renderItems() {
   const p = activeProfile();
   const list = document.getElementById('itemsList');
   list.innerHTML = '';
   const q = state.search.toLowerCase().trim();
-
+ 
   // update edit toggle button
   const editBtn = document.getElementById('editToggleBtn');
   editBtn.classList.toggle('active', state.editMode);
   editBtn.textContent = state.editMode ? '✓ Klaar met bewerken' : '✏ Bewerk items';
-
+ 
   const filtered = ITEMS.filter(item => {
     const done = !!p.done[item.nr];
     if (state.filter === 'todo' && done) return false;
@@ -1238,12 +1326,12 @@ function renderItems() {
     if (q && !text.toLowerCase().includes(q)) return false;
     return true;
   });
-
+ 
   if (filtered.length === 0) {
     list.innerHTML = '<div class="empty">Niks gevonden.</div>';
     return;
   }
-
+ 
   filtered.forEach(item => {
     const entry = p.done[item.nr];
     const isDone = !!entry;
@@ -1269,27 +1357,18 @@ function renderItems() {
     list.appendChild(row);
   });
 }
-
+ 
 function renderLeaderboard() {
   const container = document.getElementById('leaderboardContent');
   container.innerHTML = '';
-
-  // ============================================
-  // MOCKUP: gebruikt lokale profielen als demo
-  // Voor productie: vervang door API call naar backend
-  // ============================================
-  const entries = state.profiles.map(p => ({
-    id: p.id,
-    name: p.name,
-    count: Object.values(p.done).filter(Boolean).length,
-    isYou: p.id === state.activeId
-  })).sort((a, b) => b.count - a.count);
-
+ 
+  const entries = leaderboardCache;
+ 
   if (entries.length === 0) {
-    container.innerHTML = '<div class="empty">Nog geen deelnemers.</div>';
+    container.innerHTML = '<div class="empty">Nog geen deelnemers. Vink iets af om op het leaderboard te komen!</div>';
     return;
   }
-
+ 
   // Podium (top 3)
   const podium = document.createElement('div');
   podium.className = 'podium';
@@ -1320,7 +1399,7 @@ function renderLeaderboard() {
     podium.appendChild(card);
   });
   container.appendChild(podium);
-
+ 
   // Rest of the list (position 4+)
   if (entries.length > 3) {
     const list = document.createElement('div');
@@ -1348,16 +1427,8 @@ function renderLeaderboard() {
     });
     container.appendChild(list);
   }
-
-  // Mockup note (only in admin view)
-  if (isAdmin) {
-    const note = document.createElement('div');
-    note.className = 'lb-note';
-    note.innerHTML = `<strong>📌 Mockup:</strong> dit leaderboard toont nu alleen profielen op dit apparaat. Voor een echte leaderboard (iedereens scores across devices) moet je 'm koppelen aan een backend. Zie de <code>renderLeaderboard()</code> functie in de code — vervang het <code>state.profiles.map(...)</code> stuk door een API-call naar bijvoorbeeld Supabase.`;
-    container.appendChild(note);
-  }
 }
-
+ 
 function renderAll() {
   renderTexts();
   renderAdminUI();
@@ -1367,7 +1438,11 @@ function renderAll() {
   renderItems();
   renderLeaderboard();
 }
-
+async function renderAllWithFetch() {
+  await fetchLeaderboard();
+  renderAll();
+}
+ 
 // ====================================================
 // ACTIONS
 // ====================================================
@@ -1380,7 +1455,8 @@ function toggleItem(nr) {
     p.done[nr] = { date: d.toLocaleDateString('nl-NL', { day: '2-digit', month: 'short', year: '2-digit' }), ts: Date.now() };
   }
   saveState();
-
+  syncToFirebase();
+ 
   const newCount = Object.values(p.done).filter(Boolean).length;
   if (!was) {
     if (newCount === 25) { toast("KWART! Oke dan!."); confetti(); }
@@ -1390,7 +1466,7 @@ function toggleItem(nr) {
   }
   renderAll();
 }
-
+ 
 function randomUndone() {
   const p = activeProfile();
   const undone = ITEMS.filter(i => !p.done[i.nr]);
@@ -1412,7 +1488,7 @@ function randomUndone() {
     }
   }, 50);
 }
-
+ 
 // ====================================================
 // MODALS
 // ====================================================
@@ -1435,13 +1511,13 @@ document.getElementById('profileOk').onclick = () => {
 document.getElementById('profileInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('profileOk').click();
 });
-
+ 
 function openSettingsModal() {
   if (!isAdmin) return;
   document.getElementById('setEyebrow').value = state.settings.eyebrow;
   document.getElementById('setSubtitle').value = state.settings.subtitle;
   document.getElementById('setFooter').value = state.settings.footer;
-
+ 
   const ranksEl = document.getElementById('rankInputs');
   ranksEl.innerHTML = '';
   state.settings.ranks.forEach((r, i) => {
@@ -1477,7 +1553,7 @@ document.getElementById('setReset').onclick = () => {
   openSettingsModal();
   renderAll();
 };
-
+ 
 // ITEM EDIT MODAL
 let editingNr = null;
 function openItemEdit(nr) {
@@ -1516,7 +1592,7 @@ document.getElementById('itemEditReset').onclick = () => {
 document.getElementById('itemEditInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('itemEditSave').click();
 });
-
+ 
 // ADMIN LOGIN
 function openAdminLogin() {
   document.getElementById('adminPwInput').value = '';
@@ -1550,7 +1626,7 @@ document.getElementById('adminLogout').onclick = () => {
   renderAll();
   toast('Uitgelogd');
 };
-
+ 
 // ====================================================
 // MODAL UTILS
 // ====================================================
@@ -1564,7 +1640,7 @@ document.querySelectorAll('.modal-bg').forEach(bg => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') document.querySelectorAll('.modal-bg.show').forEach(m => m.classList.remove('show'));
 });
-
+ 
 // ====================================================
 // TOAST + CONFETTI
 // ====================================================
@@ -1594,7 +1670,7 @@ function confetti(n = 80) {
     setTimeout(() => el.remove(), dur);
   }
 }
-
+ 
 // ====================================================
 // STICKY DETECTION
 // ====================================================
@@ -1603,13 +1679,13 @@ window.addEventListener('scroll', () => {
   const rect = stickyWrap.getBoundingClientRect();
   stickyWrap.classList.toggle('scrolled', rect.top <= 0);
 }, { passive: true });
-
+ 
 // ====================================================
 // UTIL
 // ====================================================
 function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function escapeAttr(s) { return String(s).replace(/"/g, '&quot;'); }
-
+ 
 // ====================================================
 // EVENTS
 // ====================================================
@@ -1625,9 +1701,12 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   };
 });
 document.querySelectorAll('.view-tab').forEach(tab => {
-  tab.onclick = () => {
+  tab.onclick = async () => {
     state.view = tab.dataset.view;
     saveState();
+    if (tab.dataset.view === 'leaderboard') {
+      await fetchLeaderboard();
+    }
     renderAll();
   };
 });
@@ -1637,17 +1716,50 @@ document.getElementById('editToggleBtn').onclick = () => {
   state.editMode = !state.editMode;
   renderItems();
 };
-
+ 
 // ====================================================
 // INIT
 // ====================================================
+ 
+// Name modal for first-time visitors
+function openNameModal() {
+  document.getElementById('nameInput').value = '';
+  document.getElementById('nameModal').classList.add('show');
+  setTimeout(() => document.getElementById('nameInput').focus(), 50);
+}
+document.getElementById('nameOk').onclick = () => {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) return;
+  setMyFirebaseName(name);
+  // Also update the default local profile name
+  if (state.profiles[0] && state.profiles[0].name === 'Ik') {
+    state.profiles[0].name = name;
+    saveState();
+  }
+  closeModal('nameModal');
+  syncToFirebase();
+  renderAllWithFetch();
+};
+document.getElementById('nameInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('nameOk').click();
+});
+ 
 // Check URL for admin param
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has('admin') && !isAdmin) {
   openAdminLogin();
 }
-
-renderAll();
+ 
+// Show name modal on first visit, otherwise just load
+if (!getMyFirebaseName()) {
+  renderAll();
+  openNameModal();
+} else {
+  // Sync current score on page load
+  syncToFirebase();
+  renderAllWithFetch();
+}
 </script>
 </body>
 </html>
+ 
